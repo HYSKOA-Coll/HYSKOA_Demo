@@ -1,1 +1,1 @@
-s is a blog demo
+It's a routine exercise demo from hyskoa 
