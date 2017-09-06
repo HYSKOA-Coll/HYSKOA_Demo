@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+    <struts>
+    		<!--   配置首页访问    -->
+ 	    <package name="home"  extends="struts-default">
+	        <action name="home">
+	        	<result>/home.jsp</result>
+	        </action>
+	    </package> 
+
+    <package name="user" extends="json-default">
+		 		<action name="login" class="com.tao.action.UserAction" method="login">
+	    		 <result type="json">
+ 						<param name="root">responseJSON</param>
+ 					</result> 
+ 			</action>
+ 			
+ 		 	 <action name="logout" class="com.tao.action.UserAction" method="logout">
+	    		 <result type="json">
+ 						<param name="root">responseJSON</param>
+ 					</result> 
+ 			</action> 
+ 			
+ 			 <action name="register" class="com.tao.action.UserAction" method="register">
+	    		 <result type="json">
+ 						<param name="root">responseJSON</param>
+ 					</result> 
+ 			</action> 
+ 			
+	  </package> 
+	    
+ 	    <package name="publish" extends="struts-default">
+	    		<action name="list" class="com.tao.action.PublishAction" method="list">
+	    			<result name="success">/list.jsp</result>
+ 			</action>
+ 					
+ 					<action name="content" class="com.tao.action.PublishAction" method="content">
+	    			<result name="success">/content.jsp</result>
+ 					</action>
+	    </package> 
+	    
+	    <package name="publishhouse"  extends="json-default">
+	    		<action name="publish" class="com.tao.action.PublishAction" method="publish">
+		    		 <result type="json">
+	 						<param name="root">responseJSON</param>
+	 					</result> 
+ 					</action>
+ 					
+ 					<action name="upload" class="com.tao.action.PublishAction" method="upload">
+		    		 <result type="json">
+	 						<param name="root">responseJSON</param>
+	 					</result> 
+ 					</action>
+	    </package>  
+	    
+    </struts>
