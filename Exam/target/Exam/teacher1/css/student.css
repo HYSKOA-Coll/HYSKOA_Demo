@@ -1,0 +1,45 @@
+body{
+	background-color: #F0F0F0;
+}
+a{
+	text-decoration: none;
+}
+#bodw{
+	float: left;
+}
+#hide{
+	text-align:center;
+	height:60px;
+}
+#li{
+	margin-top: -17px;
+}
+ul{
+	height: 120px;
+}
+li{
+	text-align:center;
+	margin-left:-120%;
+	list-style: none;
+	width: 217%;
+	height: 60px;
+}
+li p{
+	margin-top: 0px;
+}
+#all{
+	width:90%;
+	margin-left:7%;
+	background-color:white;
+	padding:20px;
+	height: 700px;
+}
+.button{
+	background-color: #60ac62;
+	boder: 1px solid #60ac62;
+	color: white;
+}
+#button{
+	margin-left: 70%;
+	margin-top: -30px;
+}

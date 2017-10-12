@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+ <struts>
+ 
+ 	<!-- name="struts.devMode 表示为开发模式
+			value="true"   表示不需要重启tomcat -->
+	<constant name="struts.devMode" value="true" />
+ 
+ <package name="jmanage" extends="json-default">
+		<action name="checklogin" class="com.tao.action.UserAction" method="checklogin">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+		</action>
+		
+		<action name="edituser" class="com.tao.action.UserAction" method="edituser">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+		</action>
+		
+	</package>	
+
+    <package name="manage" extends="struts-default">
+    
+    	<action name="editstudent" class="com.tao.action.UserAction" method="editstudent">
+	    	<result name="success">/student/myset.jsp</result>
+ 			</action>
+    
+    
+    	 <action name="checkout" class="com.tao.action.UserAction" method="checkout">
+	    	<result name="success">/login.jsp</result>
+ 			</action>
+ 			
+			<action name="department" class="com.tao.action.UserAction" method="department">
+	    	<result name="success">/admin/department.jsp</result>
+ 			</action>
+ 			
+ 			<action name="teacher" class="com.tao.action.UserAction" method="teacher">
+	    	<result name="success">/admin/teacher.jsp</result>
+ 			</action>
+ 			
+ 			<action name="student" class="com.tao.action.UserAction" method="student">
+	    	<result name="success">/admin/student.jsp</result>
+ 			</action>
+ 			
+ 			<action name="mclass" class="com.tao.action.UserAction" method="mclass">
+	    	<result name="success">/admin/mclass.jsp</result>
+ 			</action>
+	  </package> 
+ 
+ </struts>

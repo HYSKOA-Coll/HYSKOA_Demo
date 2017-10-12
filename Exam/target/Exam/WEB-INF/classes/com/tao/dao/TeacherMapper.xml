@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.TeacherMapper">
+    
+    	<!-- 插入教师信息 -->
+    <insert id="insert" parameterType="Info">
+        INSERT INTO info(info_num,info_name,info_pwd,info_gender,info_phone,info_judge) VALUES (#{info_num},#{info_name},#{info_pwd},#{info_gender},#{info_phone},#{info_judge})
+    </insert> 
+    
+    	<!-- 通过工号查询教师 -->
+    <select id="select" parameterType="Info" resultType="Info">
+    		SELECT * FROM info WHERE info_num=#{info_num}
+    </select>
+    
+    	<!-- 分页查询/模糊查询分页 -->
+    <select id="selectTotalRows" resultType="java.lang.Integer">
+        SELECT count(*) FROM info where info_judge=0
+    </select>
+
+    <select id="selectPageList" resultType="Info">
+        SELECT info_id,info_num,info_name,info_judge from info 
+       	where 1=1 and info_judge=0
+       	<if test="params.name_num!=null and params.name_num!=''">
+       	 and info_name like #{params.name_num} or info_num like #{params.name_num}
+       	 </if>	
+        LIMIT #{start},#{pageCount}
+    </select>
+    	
+    	<!-- 重置教师密码 -->
+    <update id="updatePwd" parameterType="Info">
+        UPDATE info SET info_pwd=#{info_pwd} WHERE info_id=#{info_id}
+    </update>
+    	
+    	<!-- 修改教师信息 -->
+     <update id="update" parameterType="Info">
+        UPDATE info SET info_num=#{info_num},info_name=#{info_name} WHERE info_id=#{info_id}
+    </update>
+    
+    	<!-- 批量删除 -->
+     <delete id="deleteList">
+        DELETE FROM info WHERE info_id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    
+    	<!-- 通过工号删除 -->
+     <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM info WHERE info_id=#{info_id}
+    </delete>
+</mapper>

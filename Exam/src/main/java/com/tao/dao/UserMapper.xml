@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.UserMapper">
+
+   <sql id="basesql">
+        SELECT admin_id,admin_name,admin_pwd FROM admin WHERE 1=1 || #{conditions} ORDER BY admin_id DESC
+    </sql> 
+
+    <select id="select" parameterType="User" resultType="User">
+     <if test="admin_name!=null and admin_name!=''">
+        SELECT * FROM admin WHERE admin_name=#{admin_name}
+      </if>
+      <if test="info_num!=null and info_num!=''">
+        SELECT * FROM info WHERE info_num=#{info_num}
+      </if>
+      <if test="info_id!=null and info_id!=''">
+      	select i.info_id,i.info_num,i.info_name,i.info_gender,i.info_pwd,i.clazz_id,i.info_judge,c.clazz_id,c.clazz_name 
+      	from clazz c left join info i on i.clazz_id=c.clazz_id where i.info_id=#{info_id};
+      </if>
+    </select> 
+    
+    
+      <select id="selectpwd" parameterType="User" resultType="User">
+        SELECT * FROM admin WHERE admin_pwd=#{admin_pwd}
+    </select>
+    
+    	<update id="update" parameterType="User">
+    		<if test="admin_pwd!=null and admin_pwd!=''">
+        UPDATE admin SET admin_pwd=#{admin_pwd} WHERE admin_id=#{admin_id}
+        </if>
+       <if test="info_pwd!=null and info_pwd!=''">
+         UPDATE info SET info_pwd=#{info_pwd} WHERE info_id=#{info_id}
+      </if>
+    </update>
+</mapper>

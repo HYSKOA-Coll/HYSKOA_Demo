@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.MajorMapper">
+
+  <!--  <sql id="basesql">
+        SELECT admin_id,admin_name,admin_pwd FROM admin WHERE 1=1 || #{conditions} ORDER BY admin_id DESC
+    </sql> -->
+    
+    
+
+    <insert id="insert" parameterType="Major">
+    		insert into major(major_name,college_id)
+ 			 values(#{major_name},#{college_id});
+    </insert>
+    <delete id="delete" parameterType="Major">
+    		delete from major where major_id=#{major_id};
+    	</delete>
+    	
+    	    <!--查询一个对象-->
+	  <select id="select" parameterType="com.tao.entity.Major" resultType="com.tao.entity.Major">
+   			 select major_id,major_name,college_id from tb_major where major_id=#{major_id};
+    </select>
+   		 <!--查询学院对应专业的对象-->
+	  <select id="select_id"  resultType="java.util.Map">
+   			<!--  select major_id,major_name,college_id from major where college_id=#{college_id}; -->
+   		select major_id,major_name,college_id from major 
+    </select>
+    <select id="selectbymid"  parameterType="com.tao.entity.Major" resultType="com.tao.entity.Major">
+   			<!--  select major_id,major_name,college_id from major where college_id=#{college_id}; -->
+   		select major_id,major_name,college_id from major where  college_id=#{college_id}
+    </select>
+    	
+    	
+    <!-- <select id="selectTotalRows" resultType="java.lang.Integer">
+        select count(*) from major
+    </select>
+    <select id="selectPageList" resultType="Major">
+        select * from major
+         limit #{start},#{pageCount}
+    </select> -->
+   <!--  <select id="select" parameterType="Major">
+    		select * from major 
+    </select>
+    
+     -->
+</mapper>

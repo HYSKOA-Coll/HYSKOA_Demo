@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.ClazzMapper">
+
+		<!--  上课模块引用clazz  -->
+		<select id="clazzIdName" resultType="com.tao.entity.Clazz">
+        select clazz_id,clazz_name from clazz
+     </select> 
+
+    <insert id="insert" parameterType="com.tao.entity.Clazz">
+    insert into clazz (clazz_name,major_id) values (#{clazz_name},#{major_id})
+    </insert>
+    
+    <delete id="delete" parameterType="java.lang.Integer">
+    delete from clazz where clazz_id =#{clazz_id}
+    
+    </delete>
+    
+    <delete id="deleteList">
+        DELETE FROM clazz WHERE clazz_id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <!-- 修改 -->
+    <update id="update" parameterType="com.tao.entity.Clazz">
+    update clazz set clazz_name=#{clazz_name} where clazz_id=#{clazz_id} 
+    </update>
+    
+    <!-- 查询全部 -->
+    <select id="selectTotalRows" parameterType="com.tao.page.PageBean" resultType="int">
+     						select count(1) TotalRows from (<include refid="basesql"/>) as tbl;
+     	</select>
+ 
+        <select id="selectPageList" parameterType="com.tao.page.PageBean" resultType="java.util.Map">
+             select * from (<include refid="basesql"/>) as tbl limit #{start},#{pageCount};
+
+        </select> 
+        
+      <!--条件查询  -->
+    	<sql id="basesql">
+       		select * from 
+             (select * from(select college.college_id did,college.college_name dname,major.major_id mid,major.college_id,major.major_name from college inner join major on college.college_id=major.college_id) as dm               inner join clazz on clazz.major_id=dm.mid) as md
+
+              
+           <!--  <if test="params.college_id != null">
+                   and did=#{params.college_id}
+             </if>
+                <if test="params.major_id != null">
+                   and mid=#{params.major_id}
+             </if>  
+        <if test="params.clazz_name != null">
+                   and clazz_name=#{params.clazz_name}
+                   
+             </if>   -->
+ 
+       </sql> 
+       	
+     <select id="selectmid" parameterType="com.tao.entity.Clazz" resultType="java.util.Map">
+   			<!--  select major_id,major_name,college_id from major where college_id=#{college_id}; -->
+   			select * from clazz where major_id=#{major_id}
+    </select>
+  
+    <!-- select * from (select z.clazz_id,z.clazz_name,z.major_id,m.major_name,m.college_id from clazz z left join (select m.major_id,m.major_name,m.college_id from major)) -->
+</mapper>

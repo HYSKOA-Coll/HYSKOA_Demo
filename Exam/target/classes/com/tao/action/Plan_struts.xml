@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+ <struts>
+<!--  name="struts.devMode 表示为开发模式  value="true" 表示不需要重启tomcat -->
+<constant name="struts.devMode" value="true" />
+
+	<package name="getplantion" extends="struts-default">
+ 			<action name="getplan" class="com.tao.action.PlanAction" method="getplan">
+	    	<result name="success">/teacher/teacher_plan.jsp</result>
+ 			</action>
+ 		</package>
+ 		
+ 		<package name="deleteolantion" extends="json-default">
+ 		
+		<action name="deleteplan" class="com.tao.action.PlanAction" method="deleteplan">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+		</action>
+		<action name="addplan" class="com.tao.action.PlanAction" method="addplan">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+		</action>
+	 </package>
+	</struts>

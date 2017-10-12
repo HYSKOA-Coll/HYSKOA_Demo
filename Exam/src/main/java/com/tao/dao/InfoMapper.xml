@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+			PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.InfoMapper">
+
+    <select id="getStudent" resultType="Info">
+        select * from Info 
+    </select>
+    <select id="selectTotalRows" resultType="java.lang.Integer">
+        SELECT count(*) from
+        		(SELECT s.info_id,s.info_num,s.info_name,s.info_gender,s.clazz_id,ccm.clazz_name,s.info_judge,         
+        			ccm.major_id,ccm.major_name,ccm.college_id,ccm.college_name FROM info s 
+        LEFT JOIN         
+        			(SELECT class.clazz_id,class.clazz_name,class.major_id,tb.major_name,tb.college_id,tb.college_name FROM clazz class 
+        LEFT JOIN         
+        			(SELECT m.major_id,m.major_name,m.college_id,college.college_name FROM major m 
+        LEFT JOIN college college ON m.college_id=college.college_id) tb                 
+        			ON class.major_id=tb.major_id) ccm             
+        			ON s.clazz_id=ccm.clazz_id ORDER BY info_id DESC) unitedTable 
+         WHERE info_judge=1
+        <if test="conditions2.clazz_id != 0 and conditions2.clazz_id !=null and conditions2.clazz_id !=''" >
+        	AND clazz_id=#{conditions2.clazz_id}
+	    </if>
+	    <if test="conditions2.major_id != 0 and conditions2.major_id != null and conditions2.major_id != ''" >
+	        AND major_id=#{conditions2.major_id}
+	    </if>
+	    <if test="conditions2.college_id != 0 and conditions2.college_id != null and conditions2.college_id != ''" >
+	        AND college_id=#{conditions2.college_id}
+	    </if>
+	    <if test="conditions2.nameOrnumber != null and conditions2.nameOrnumber != '' and conditions2.nameOrnumber != 'null'">
+	        AND (info_name lIKE #{conditions.nameOrnumber} OR info_num LIKE #{conditions.nameOrnumber})
+	    </if>
+    </select>
+    <select id="selectPageList" resultType="Info">
+       <!--  SELECT * from info where info_judge=1  -->
+       <!-- select info_num,info_name,info_gender,clazz_name from info i left join clazz c on c.clazz_id=i.clazz_id where i.info_judge=1 order by i.clazz_id  -->
+        SELECT * FROM    
+        			(SELECT s.info_id,s.info_num,s.info_name,s.info_gender,s.clazz_id,ccm.clazz_name,s.info_judge,         
+        			ccm.major_id,ccm.major_name,ccm.college_id,ccm.college_name FROM info s 
+        LEFT JOIN         
+        			(SELECT class.clazz_id,class.clazz_name,class.major_id,tb.major_name,tb.college_id,tb.college_name FROM clazz class 
+        LEFT JOIN         
+        			(SELECT m.major_id,m.major_name,m.college_id,college.college_name FROM major m 
+        LEFT JOIN college college ON m.college_id=college.college_id) tb                 
+        			ON class.major_id=tb.major_id) ccm             
+        			ON s.clazz_id=ccm.clazz_id ORDER BY info_id DESC) unitedTable 
+        WHERE info_judge=1
+    <if test="conditions2.clazz_id != 0 and conditions2.clazz_id !=null and conditions2.clazz_id !=''" >
+        AND clazz_id=#{conditions2.clazz_id}
+    </if>
+    <if test="conditions2.major_id != 0 and conditions2.major_id !=null and conditions2.major_id !=''" >
+        AND major_id=#{conditions2.major_id}
+    </if>
+    <if test="conditions2.college_id != 0 and conditions2.college_id !=null and conditions2.college_id !=''" >
+        AND college_id=#{conditions2.college_id}
+    </if>
+    <if test="conditions2.nameOrnumber != null and conditions2.nameOrnumber !='' and conditions2.nameOrnumber != 'null'">
+        AND (info_name lIKE #{conditions2.nameOrnumber} OR info_num LIKE #{conditions2.nameOrnumber})
+    </if>
+        LIMIT #{start},#{pageCount}
+    </select>
+     <!-- select (SELECT * from info) tb1 and select clazz_name where clazz_id=tb1.clazz_id  -->
+            	<!-- <if test="params.name_num!=null and params.name_num!=''">
+       	 and info_name like #{params.name_num} or info_num like #{params.name_num}
+       	 </if> -->	
+       	 
+     <delete id="delete" parameterType="Info">
+     	delete from info where info_id=#{info_id}
+     </delete>
+     
+     <delete id="deleteList">
+        DELETE FROM info WHERE info_id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+           <!--  <sql id="basesql">
+    SELECT * FROM  (SELECT s.info_id,s.info_num,s.info_name,s.info_gender,s.clazz_id,ccm.clazz_name,
+             ccm.major_id,ccm.major_name,ccm.collInfoege_id,ccm.college_name FROM info s 
+         LEFT JOIN conditions.classId
+                 (SELECT class.clazz_id,class.clazz_name,class.major_id,tb.major_name,tb.college_id,tb.college_name FROM clazz class 
+         LEFT JOIN         
+                 (SELECT m.major_id,m.major_name,m.college_id,college.college_name FROM major m 
+         LEFT JOIN college college ON m.college_id=college.college_id) tb                 
+            ON class.major_id=tb.major_id) ccm             
+            ON s.clazz_id=ccm.clazz_id ORDER BY info_id DESC) unitedTable    
+            WHERE 1=1;
+    <if test="conditions.classId != null" >
+        AND clazz_id=#{conditions.clazzId}
+    </if>
+    <if test="conditions.majorId != null" >
+        AND major_id=#{conditions.majorId}
+    </if>
+    <if test="conditions.collageId != null" >
+        AND collage_id=#{conditions.collageId}
+    </if>
+    <if test="conditions.nameOrnumber != null">
+        AND (info_name lIKE #{conditions.nameOrnumber} OR info_num LIKE #{conditions.nameOrnumber})
+    </if>
+</sql> -->    #{item}
+        </foreach>
+    </delete>
+    
+    <insert id="insert">
+    	insert into info (info_id,info_num,info_name,info_gender,info_phone,info_judge,info_pwd,clazz_id) values (0,#{info_num},#{info_name},#{info_gender},#{info_phone},1,666666,#{clazz_id})
+    </insert>
+    
+    <update id="updatepwd" parameterType="Info">
+    	update info set info_pwd=666666 where info_num=#{info_num}
+    </update>
+    
+    <select id="select" parameterType="Info" resultType="Info">
+    	 SELECT * FROM    
+        			(SELECT s.info_id,s.info_num,s.info_name,s.info_gender,s.clazz_id,ccm.clazz_name,         
+        			ccm.major_id,ccm.major_name,ccm.college_id,ccm.college_name FROM info s 
+        LEFT JOIN         
+        			(SELECT class.clazz_id,class.clazz_name,class.major_id,tb.major_name,tb.college_id,tb.college_name FROM clazz class 
+        LEFT JOIN         
+        			(SELECT m.major_id,m.major_name,m.college_id,college.college_name FROM major m 
+        LEFT JOIN college college ON m.college_id=college.college_id) tb                 
+        			ON class.major_id=tb.major_id) ccm             
+        			ON s.clazz_id=ccm.clazz_id ORDER BY info_id DESC) unitedTable 
+        WHERE 1=1 and info_num=#{info_num}
+    </select>
+    
+    <update id="update">
+    	update info set clazz_id=#{clazz_id},info_num=#{info_num},info_name=#{info_name},info_gender=#{info_gender} where info_id=#{info_id}
+    </update>
+    <select id="selectCollegeList" resultType="com.tao.entity.College">
+        select * from college 
+    </select>
+    
+     <select id="selectMajorList" parameterType="com.tao.entity.Major" resultType="com.tao.entity.Major">
+        select * from major where college_id=#{college_id} 
+    </select>
+    
+    <select id="selectClazzList" parameterType="com.tao.entity.Clazz" resultType="com.tao.entity.Clazz">
+        select * from clazz where major_id=#{major_id} 
+    </select>
+
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+ <struts>
+<!--  name="struts.devMode 表示为开发模式  value="true" 表示不需要重启tomcat -->
+<constant name="struts.devMode" value="true" />
+ 
+ <package name="manage2" extends="struts-default">
+	 		<action name="getlist" class="com.tao.action.CollegeAction" method="getlist">
+	    		<result name="success">/admin/department.jsp</result>
+ 			</action>
+	 </package> 
+	 
+	 <package name="jcollege" extends="json-default">
+	 		<action name="addcollege" class="com.tao.action.CollegeAction" method="addcollege">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+		</action>
+		<action name="addmajor" class="com.tao.action.MajorAction" method="addmajor">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+		</action>
+	 </package>
+	 <package name="jmanage1" extends="json-default">
+		<action name="deletemajor" class="com.tao.action.MajorAction" method="deletemajor">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+		</action>
+	</package>
+	<package name="jmanage3" extends="json-default">
+		<action name="deletecollege" class="com.tao.action.CollegeAction" method="deletecollege">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+		</action>
+	</package>
+	</struts>

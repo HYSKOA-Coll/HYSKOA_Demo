@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.QuestionpMapper">      
+
+    	<!-- 添加 -->
+    <insert id="insert" parameterType="Questionp" useGeneratedKeys="true" keyProperty="packet_id">
+        INSERT INTO question_packet 
+        (packet_name,packet_type,packet_level,packet_prompt,media_id,info_id) 
+        VALUES (#{packet_name},#{packet_type},#{packet_level},#{packet_prompt},#{media_id},#{info_id})
+    </insert> 
+    
+    	<!--  查询	 -->
+    <select id="questionId" parameterType="java.lang.String" resultType="java.lang.Integer">
+			select packet_id from question_packet where packet_name=#{packet_name}  			
+    </select>
+    
+   		 <!-- 删除  -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM question_packet WHERE packet_id=#{packet_id}
+    </delete>
+ 
+    	<!-- 分页查询 -->
+    <select id="selectTotalRows" resultType="java.lang.Integer">
+        SELECT count(*) FROM question_packet where 1=1 
+         <if test="params.info_id != null and params.info_id != 0 ">
+        AND info_id=#{params.info_id}
+   		 </if>
+   	   <if test="params.packet_level != '' and params.packet_level != null " >
+        AND packet_level=#{params.packet_level}
+   		 </if> 
+   		 <if test="params.name_type != null and params.name_type != ''">
+       	 and packet_name like #{params.name_type} or packet_type like #{params.name_type}
+       </if>	
+    </select>
+
+    <select id="selectPageList" resultType="Questionp">
+	     	select i.info_id,i.info_name,
+	     	pm.packet_name,pm.packet_id,pm.packet_type,pm.packet_level,pm.packet_prompt,pm.info_id,pm.media_id,pm.media_name 
+	     	from info i right join
+	     	(select p.packet_id, p.packet_name,p.packet_type,p.packet_level,p.packet_prompt,p.info_id,p.media_id,r.media_name 
+	     	from question_packet p left join media_resource r on p.media_id=r.media_id) pm 
+	     	on pm.info_id=i.info_id where 1=1
+	    	<if test="params.info_id != null and params.info_id != 0 ">
+        AND pm.info_id=#{params.info_id}
+   		 </if>
+   	   <if test="params.packet_level != '' and params.packet_level != null " >
+        AND pm.packet_level=#{params.packet_level}
+   		 </if> 
+   		 	<if test="params.name_type != null and params.name_type != ''">
+       	 and pm.packet_name like #{params.name_type} or pm.packet_type like #{params.name_type}
+       </if>
+        order by pm.packet_id desc 
+       	LIMIT #{start},#{pageCount} 
+    </select>
+
+</mapper>

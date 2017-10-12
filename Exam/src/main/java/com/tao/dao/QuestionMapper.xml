@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.tao.dao.QuestionMapper">
+
+	     	<!-- 添加 -->
+    <insert id="insertlist" parameterType="Question">
+        INSERT INTO question 
+        (question_name,question_type,question_option,question_correct,question_prompt,packet_id,info_id,media_id ) 
+        VALUES (#{question_name},#{question_type},#{question_option},#{question_correct},#{question_prompt},#{packet_id},#{info_id},#{media_id})
+    </insert> 
+
+	 <!-- 删除  -->
+   <delete id="delete" parameterType="java.lang.Integer">
+      DELETE FROM question WHERE packet_id=#{packet_id}
+   </delete>
+
+		<!-- 查询  -->
+		<select id="questionList" parameterType="java.lang.Integer" resultType="Question">
+			SELECT * FROM question WHERE packet_id=#{packet_id}
+		</select>
+		
+		<!-- 学生分页查询 -->
+		<select id="selectTotalRows" resultType="java.lang.Integer">
+			SELECT count(*) FROM question where packet_id=#{params.packet_id}
+		</select>
+		<select id="selectPageList" resultType="Question">
+			select q.question_id,q.question_type,q.question_option,q.question_correct,q.question_prompt,q.media_id,q.question_name,qp.packet_id,qp.packet_name 
+			from question q left join question_packet qp 
+			on q.packet_id=qp.packet_id where qp.packet_id=#{params.packet_id} 
+			LIMIT #{start},#{pageCount}
+		</select>
+
+</mapper>   

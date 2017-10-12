@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+    <struts>
+
+<!--  name="struts.devMode 表示为开发模式
+			value="true"   表示不需要重启tomcat  -->
+	
+	<constant name="struts.devMode" value="true" />
+ 		
+ 		<include file="com/tao/action/teacher_struts.xml"></include>
+ 		<include file="com/tao/action/user_struts.xml"></include>
+    </struts>

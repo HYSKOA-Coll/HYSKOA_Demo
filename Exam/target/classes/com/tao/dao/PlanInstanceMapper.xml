@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.PlanInstanceMapper"> 
+
+    	<!-- 添加 -->
+    <insert id="insert" parameterType="PlanInstance">
+        INSERT INTO plan_instance (plan_id,clazz_id,info_id,plan_name,info_name,token,start_time,instance_judge) VALUES (#{plan_id},#{clazz_id},#{info_id},#{plan_name},#{info_name},#{token},#{start_time},#{instance_judge})
+    </insert>  
+    
+    	 <!-- 查询 -->
+   <select id="selectquestionp" parameterType="java.lang.Integer" resultType="Questionp">
+	 	
+	select qp.packet_id,qp.packet_name,qp.packet_type,qp.packet_prompt,qp.media_id,plpt.packet_id 
+	from question_packet qp right join  
+	(select pl.plan_id,pt.packet_id from plan pl left join plan_templet pt on pl.plan_id=pt.plan_id where pl.plan_id=#{plan_id}) 
+	plpt on qp.packet_id=plpt.packet_id
+	</select>
+	
+	<!--  修改上课状态  -->
+	<update id="update" parameterType="PlanInstance">
+		update plan_instance set instance_judge=0 where token=#{token};
+	</update>
+  
+     	<!-- 分页查询 -->
+   <select id="selectTotalRows" resultType="java.lang.Integer">
+       SELECT count(*) FROM plan_instance where instance_judge=#{params.instance_judge }
+   </select>
+	
+	<!-- 学生已结束的课分页查询  -->
+	<select id="selectPageList" resultType="PlanInstance">
+		select pi.clazz_id,pl.instance_id,pl.plan_id,pl.clazz_id,pl.info_id,pl.token,pl.start_time,pl.instance_judge,pl.plan_name,pl.info_name 
+		from(select i.clazz_id,i.info_id from plan_instance plani 
+		right join info i on i.info_id=plani.info_id where i.info_id=#{params.info_id}) pi 
+		left join plan_instance pl on pi.clazz_id=pl.clazz_id where pl.instance_judge=#{params.instance_judge }
+		LIMIT #{start},#{pageCount}
+	</select>
+	
+	<!-- select pi.info_id,pi.token,ins.token,ins.packet_id from
+	(select i.info_id,p.instance_id,p.instance_judge,p.clazz_id,p.token 
+	from plan_instance p left join info i on i.clazz_id=p.clazz_id 
+	where p.instance_judge=1 and i.info_id=48) pi left join instance_answer ins on pi.token=ins.token where pi.info_id=48 -->
+</mapper>

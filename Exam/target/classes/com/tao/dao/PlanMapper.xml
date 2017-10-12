@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.PlanMapper">
+
+
+	  <!-- 上课引用plan  -->
+	 <select id="planIdName" resultType="Plan">
+	 		select plan_id,plan_name from plan
+	 </select>
+
+		<!-- 添加  -->
+    <insert id="insert" parameterType="Plan">
+    		insert into plan(plan_ name,plan_time,info_id,packet_id,plan_apply)
+ 			 values(#{plan_name},#{plan_time},#{info_id},#{packet_id},#{plan_apply})
+    </insert>
+    
+     <!-- 分页查询 -->
+    <select id="selectTotalRows" resultType="java.lang.Integer">
+    	SELECT count(*) FROM (<include refid="basesql"/>) tbl where 1=1
+    
+	    <if test="conditions2.info_id != 0 and conditions2.info_id !=null and conditions2.info_id !=''" >
+        	AND info_id=#{conditions2.info_id}
+	    </if>
+	    <if test="conditions2.plan_name !=null and conditions2.plan_name !=''" >
+        	AND plan_name=#{conditions2.plan_name}
+	    </if>
+	</select>
+	<select id="selectPageList" resultType="Plan" >
+     SELECT * FROM (<include refid="basesql"/>) tbl where 1=1
+      <if test="conditions2.info_id != 0 and conditions2.info_id !=null and conditions2.info_id !=''" >
+        	AND info_id=#{conditions2.info_id}
+	    </if>
+	     <if test="conditions2.plan_name !=null and conditions2.plan_name !=''" >
+        	AND plan_name=#{conditions2.plan_name}
+	    </if>
+	     LIMIT #{start},#{pageCount}
+	</select>
+
+	<sql id="basesql">
+		<!-- 	 select a.plan_id,a.plan_name,a.plan_time,a.packet_id,a.plan_apply,a.info_id,b.info_name from plan a 
+		 LEFT JOIN info b ON a.info_id=b.info_id -->
+		 	 select a.plan_id,a.plan_name,a.plan_time,a.plan_apply,a.info_id,b.info_name from plan a 
+		 LEFT JOIN info b ON a.info_id=b.info_id
+	</sql>
+
+	<!-- plan_id 删除 -->
+	<delete id="delete" parameterType="Plan">
+	    		delete from plan where plan_id=#{plan_id};
+	</delete>
+
+ 	<!-- 通过教学名查询 -->
+    <!-- <select id="selectplan" parameterType="Plan" resultType="Plan">
+    		SELECT * FROM plan WHERE plan_name=#{plan_name}
+    </select>	 -->   
+    
+     
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    
+    <struts>
+		<constant name="struts.devMode" value="true"/> 
+ 		
+<package name="Info" extends="json-default">
+ 			
+ 			<action name="delStudent" class="com.tao.action.InfoAction" method="delStudent">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+			</action>
+			
+			<action name="delStudentList" class="com.tao.action.InfoAction" method="delStudentList">
+	    		<result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+ 			</action>
+ 			
+ 			<action name="Excel" class="com.tao.action.InfoAction" method="Excel">
+	    		<result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+ 			</action>
+ 			
+ 			<action name="getColl" class="com.tao.action.InfoAction" method="getColl">
+	    		<result type="json">
+					<param name="root">responseJSON1</param>
+				</result> 
+ 			</action>
+ 			
+ 			<action name="getMaj" class="com.tao.action.InfoAction" method="getMaj">
+	    		<result type="json">
+					<param name="root">responseJSON1</param>
+				</result> 
+ 			</action>
+ 			
+ 			<action name="getCla" class="com.tao.action.InfoAction" method="getCla">
+	    		<result type="json">
+					<param name="root">responseJSON1</param>
+				</result> 
+ 			</action>
+ 			
+ 			<!-- <result name="success" type="chain">getStudent</result> -->
+ 			
+ 			<action name="addstu" class="com.tao.action.InfoAction" method="addstu">
+	    		<result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+ 			</action>
+ 			
+ 			<action name="Excel" class="com.tao.action.InfoAction" method="Excel">
+	    		<result name="success" type="chain">getStudent</result>
+ 			</action>
+ 			
+ 			<action name="updatePwd" class="com.tao.action.InfoAction" method="updatePwd">
+	    		<result name="success" type="chain">getStudent</result>
+ 			</action>
+ 			
+ 			<action name="getOne" class="com.tao.action.InfoAction" method="getOne">
+ 				<result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+ 			</action>
+ 			
+ 		<!-- 	<action name="update" class="com.tao.action.InfoAction" method="update">
+	    		<result name="success" type="chain">getStudent</result>
+ 			</action> -->
+ 			
+ 			
+ 		<action name="update" class="com.tao.action.InfoAction" method="update">
+			 <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+			</action>
+ 			
+ 				<action name="getStudent" class="com.tao.action.InfoAction" method="getStudent">
+					<result name="success">/admin/student.jsp</result>
+ 			</action>
+ 		</package>
+    </struts>

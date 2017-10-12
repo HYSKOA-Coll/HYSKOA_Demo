@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.AdminMapper">
+
+   <sql id="basesql">
+        SELECT admin_id,admin_name,admin_pwd FROM admin WHERE 1=1 || #{conditions} ORDER BY admin_id DESC
+    </sql> 
+
+    <select id="select" parameterType="Admin" resultType="Admin">
+        SELECT * FROM admin WHERE admin_name=#{admin_name}
+    </select>
+    
+      <select id="selectpwd" parameterType="Admin" resultType="Admin">
+        SELECT * FROM admin WHERE admin_pwd=#{admin_pwd}
+    </select>
+    
+    	<update id="update" parameterType="Admin">
+        UPDATE admin SET admin_pwd=#{admin_pwd} WHERE admin_id=#{admin_id}
+    </update>
+</mapper>

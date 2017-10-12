@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+    <struts>
+
+<!--  name="struts.devMode 表示为开发模式
+			value="true"   表示不需要重启tomcat  -->
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.multipart.maxSize" value="1000000000000" /> 
+	
+		<!-- 用户登录模块  -->
+ 		<include file="com/tao/action/user_struts.xml"></include>
+ 		
+ 		<!-- admin/teacher模块 -->
+ 		<include file="com/tao/action/teacher_struts.xml"></include>
+ 		
+ 		<!-- student/学生模块 -->
+ 		<include file="com/tao/action/Info_struts.xml"></include>
+ 		
+ 		<!-- college/学院模块 -->
+ 		<include file="com/tao/action/College_strts.xml"></include>
+ 		
+ 		<!-- teacher/media听力资源模块 -->
+ 		<include file="com/tao/action/media_struts.xml"></include>
+ 		
+ 		<!-- question/questionp听力题库 -->
+ 		<include file="com/tao/action/questionp_struts.xml"></include>
+ 		
+ 		<!-- question/question听力试题 -->
+ 		<include file="com/tao/action/question_struts.xml"></include>
+ 		
+		<!-- plan/plan教学计划 -->
+    <include file="com/tao/action/Plan_struts.xml"></include>
+    
+    <!-- clazz/班级 -->
+    <include file="com/tao/action/Clazz_struts.xml"/>
+    
+  		  <!-- 上课实例 -->
+  	<include file="com/tao/action/planinstance_struts.xml"/>
+  		  
+  		  <!-- 上课试题 -->
+  	<include file="com/tao/action/instanceAnswer_struts.xml"/>
+    </struts>

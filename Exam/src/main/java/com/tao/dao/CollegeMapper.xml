@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.CollegeMapper">
+
+  <!--  <sql id="basesql">
+        SELECT admin_id,admin_name,admin_pwd FROM admin WHERE 1=1 || #{conditions} ORDER BY admin_id DESC
+    </sql> -->
+    
+    <insert id="insert" parameterType="College">
+        INSERT INTO college(college_name) VALUES (#{college_name})
+    </insert>
+    	<delete id="delete" parameterType="College">
+    		delete from college where college_id=#{college_id};
+    	</delete>
+    	 <delete id="deleteList">
+        DELETE FROM college WHERE college_id in
+        <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    	<select id="selectTotalRows" resultType="java.lang.Integer" parameterType="com.tao.page.PageBean" >
+    SELECT count(*) FROM (<include refid="basesql"/>) tbl;
+</select>
+
+<select id="selectPageList" resultMap="BaseResultMap" parameterType="com.tao.page.PageBean" >
+    SELECT * FROM (<include refid="basesql"/>) tbl LIMIT #{start},#{pageCount};
+</select>
+    
+    
+    <sql id="basesql">
+    SELECT c.college_id,c.college_name,m.major_id,m.major_name FROM college c LEFT JOIN major m ON c.college_id=m.college_id ORDER BY c.college_id DESC,m.major_id DESC
+</sql>
+    
+        	<!--查询一个对象-->
+	  <select id="select" parameterType="com.tao.entity.College" resultType="com.tao.entity.College">
+   			 select *  from college;
+    </select>
+    
+       <!--查询全部对象-->
+    <select id="select_list" parameterType="com.tao.entity.College" resultType="com.tao.entity.College">
+   			 select college_id,college_name from college
+    </select>
+    
+    
+    <resultMap id="BaseResultMap" type="College" >
+    <id column="college_id" property="college_id" jdbcType="INTEGER" />
+    <result column="college_name" property="college_name" jdbcType="VARCHAR" />
+    <collection property="majorList" ofType="Major" column="college_id">
+        <id column="major_id" property="major_id"></id>
+        <result column="major_name" property="major_name"></result>
+    </collection>
+</resultMap>
+</mapper>

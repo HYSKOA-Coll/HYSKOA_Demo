@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+ <struts>
+<!-- name="struts.devMode 表示为开发模式
+		value="true"   表示不需要重启tomcat 
+-->
+<constant name="struts.devMode" value="true" />
+ 	
+ 	<package name="clazz" extends="struts-default">
+	 	 <action name="select" class="com.tao.action.ClazzAction" method="select">
+			<result name="success">/admin/mclass.jsp</result>
+	 	</action>
+	 	<action name="getall" class="com.tao.action.ClazzAction" method="selectClazz">
+					<result name="success">/admin/class.jsp</result>
+			</action>  
+			<!-- 分页查询 -->
+			  <action name="getall" class="com.tao.action.ClazzAction" method="getAll">
+					<result name="success">/admin/mclass.jsp</result>
+			</action> 
+			<action name="selectAll" class="com.tao.action.ClazzAction" method="selectAll">
+					<result name="success">/admin/mclass.jsp</result>
+			</action> 
+ 	</package>
+ 	
+ 	
+ 	<package name="mclazz" extends="json-default">
+ 	
+ 	<action name="selectAll" class="com.tao.action.ClazzAction" method="selectAll">
+					<result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+		</action> 
+			<action name="selectMajor" class="com.tao.action.ClazzAction" method="selectMajor">
+					<result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+			</action> 
+ 	 <action name="addclazz" class="com.tao.action.ClazzAction" method="addclazz">
+	    	<result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+ 			</action> 
+ 	<action name="updataclazz" class="com.tao.action.ClazzAction" method="updataclazz">
+	    	<result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+ 			</action>
+ 			
+ 	 <action name="deleteclazz" class="com.tao.action.ClazzAction" method="deleteclazz">
+	    <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+ 			</action> 
+ 			
+ 			 <action name="deleteclazzs" class="com.tao.action.ClazzAction" method="deleteclazzs">
+	    <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+ 			</action> 
+ 		
+ 	</package> 
+ 	
+ 	</struts>

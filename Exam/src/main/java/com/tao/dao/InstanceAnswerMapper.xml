@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.InstanceAnswerMapper"> 
+
+	   	<!-- 通过clazz_id查询学生 -->
+    <select id="selectInfo" parameterType="java.lang.Integer" resultType="Info">
+        select info_id,info_num,info_name from info where clazz_id=#{clazz_id}
+    </select>
+    
+    	 <!-- 添加 -->
+    <insert id="addAnswer" parameterType="InstanceAnswer">
+        INSERT INTO instance_answer 
+        (packet_id,info_id,token,clazz_id ) 
+        VALUES (#{packet_id},#{info_id},#{token},#{clazz_id})
+    </insert> 
+    
+    <select id="select" parameterType="InstanceAnswer" resultType="InstanceAnswer">
+    	select pi.token,ins.packet_id,ins.info_id from 
+			(select i.info_id,p.instance_id,p.instance_judge,p.clazz_id,p.token from plan_instance p left join info i 
+			on i.clazz_id=p.clazz_id where p.instance_judge=1 and i.info_id=#{info_id}) pi 
+			left join instance_answer ins on pi.token=ins.token where ins.info_id=#{info_id}
+    </select>
+<!--     	select pipl.info_id,pipl.token,pipl.packet_id,qp.packet_name from 
+    	(select pi.info_id,pi.token,ins.packet_id from 
+			(select i.info_id,p.instance_id,p.instance_judge,p.clazz_id,p.token from plan_instance p left join info i 
+			on i.clazz_id=p.clazz_id where p.instance_judge=1 and i.info_id=48) pi 
+			right join instance_answer ins on pi.token=ins.token where ins.info_id=48) pipl
+			left join question_packet qp on pipl.packet_id=qp.packet_id  -->
+    <!--	select pi.token,ins.packet_id,ins.info_id from 
+			(select i.info_id,p.instance_id,p.instance_judge,p.clazz_id,p.token from plan_instance p left join info i 
+			on i.clazz_id=p.clazz_id where p.instance_judge=1 and i.info_id=48) pi 
+			right join instance_answer ins on pi.token=ins.token where ins.info_id=48 -->
+</mapper> 

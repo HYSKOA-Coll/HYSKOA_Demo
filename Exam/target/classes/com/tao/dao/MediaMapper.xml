@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tao.dao.MediaMapper">        
+
+    	<!-- 添加 -->
+    <insert id="insert" parameterType="Media">
+        INSERT INTO media_resource 
+        (media_name,media_path,media_level,media_type,media_size,media_time,info_id ) 
+        VALUES (#{media_name},#{media_path},#{media_level},#{media_type},#{media_size},#{media_time},#{info_id})
+    </insert> 
+    
+    	<!-- 修改 -->
+    <update id="update" parameterType="Media">
+        UPDATE media_resource SET 
+        media_name=#{media_name},media_level=#{media_level},media_type=#{media_type},info_id=#{info_id} 
+        WHERE media_id=#{media_id}
+    </update>
+
+    	<!-- 删除 -->
+     <delete id="delete" parameterType="Media">
+        DELETE FROM media_resource WHERE media_id=#{media_id}
+    </delete>
+    
+    
+    	<!-- 分页查询 -->
+    <select id="selectTotalRows" resultType="java.lang.Integer">
+        SELECT count(*) FROM media_resource where 1=1 
+        <if test="params.info_id != null and params.info_id != '' ">
+        AND info_id=#{params.info_id}
+   		 </if>
+   	    <if test="params.media_type != '' and params.media_type != null " >
+        AND media_type=#{params.media_type}
+   		 </if>
+   		 <if test="params.media_level != '' and params.media_level != null" >
+        AND media_level=#{params.media_level}
+   		 </if>
+   		 <if test="params.media_name != '' and params.media_name != null" >
+        AND media_name=#{params.media_name}
+   		 </if> 
+    </select>
+
+    <select id="selectPageList" resultType="Media">
+        SELECT m.media_id,m.media_name,m.media_path,m.media_level,m.media_type,m.media_size,m.media_time,m.info_id,i.info_name 
+        from  media_resource m left join info i on m.info_id=i.info_id
+       	where 1=1 
+       <if test="params.info_id != null and params.info_id != '' ">
+        AND m.info_id=#{params.info_id}
+   		 </if>
+   	    <if test="params.media_type != '' and params.media_type != null " >
+        AND m.media_type=#{params.media_type}
+   		 </if>
+   		 <if test="params.media_level != '' and params.media_level != null" >
+        AND m.media_level=#{params.media_level}
+   		 </if>
+   		 <if test="params.media_name != '' and params.media_name != null" >
+        AND m.media_name=#{params.media_name}
+   		 </if> 
+       	LIMIT #{start},#{pageCount}
+    </select>
+   </mapper> 

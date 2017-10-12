@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+
+	<package name="jmedia" extends="json-default" namespace="/media">
+			<!-- 上传听力资源 -->
+			<action name="uploadmedia" class="com.tao.action.MediaAction" method="uploadmedia"> 
+			  <result type="json">
+			          <!-- 文件过滤 -->
+            <param name="allowedTypes">image/bmp,image/png,image/gif,image/jpeg,audio/x-mpeg</param>
+          				 <!-- 文件大小, 以字节为单位 -->
+            <param name="maximumSize">1024*1024*1024*1024</param>
+					<param name="root">responseJSON</param>
+				</result> 
+			</action>
+			
+			<!-- 添加听力资源  -->
+			<action name="addmedia" class="com.tao.action.MediaAction" method="addmedia"> 
+			  <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+			</action>
+			
+			<!-- 修改听力资源  -->
+			<action name="editmedia" class="com.tao.action.MediaAction" method="editmedia"> 
+			  <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+			</action>
+			
+			<!-- 删除听力资源  -->
+			<action name="delmedia" class="com.tao.action.MediaAction" method="delmedia"> 
+			  <result type="json">
+					<param name="root">responseJSON</param>
+				</result> 
+			</action>
+
+	</package>
+
+
+	<package name="media" extends="struts-default" namespace="/media">
+		<!-- 听力资源分页查询 -->
+		 <action name="getmedia" class="com.tao.action.MediaAction" method="getmedia">
+	    	<result name="success">/teacher/media.jsp</result>
+ 		 </action>	
+ 		 
+ 		 <!-- 听力题库分页查询听力资源 -->
+		 <action name="qgetmedia" class="com.tao.action.MediaAction" method="qgetmedia">
+	    	<result name="success">/teacher/selmedia.jsp</result>
+ 		 </action>	
+ 		 
+ 		 			
+	<!--文件下载  -->
+ 	<action name="down" class="com.tao.action.MediaAction" method="down">
+		<result name="success" type="stream">
+   			<param name="inputName">fileInputStream</param>
+   			<param name="contentDisposition">attachment;filename=${filename}</param>
+  	</result>
+	</action> 
+	</package>
+	
+	
+</struts>    

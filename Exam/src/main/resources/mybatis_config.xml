@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+        <!-- 打印查询语句 -->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+
+   <typeAliases>
+       <typeAlias type="com.tao.entity.User" alias="User"/>
+       <typeAlias type="com.tao.entity.Teacher" alias="Teacher"/> 
+       <typeAlias type="com.tao.entity.Info" alias="Info"/>
+       <typeAlias type="com.tao.entity.College" alias="College"/>
+       <typeAlias type="com.tao.entity.Major" alias="Major"/> 
+       <typeAlias type="com.tao.entity.Clazz" alias="Clazz"/>  
+       <typeAlias type="com.tao.entity.Media" alias="Media"/>
+       <typeAlias type="com.tao.entity.Questionp" alias="Questionp"/>
+       <typeAlias type="com.tao.entity.Question" alias="Question"/>
+ 	 		 <typeAlias type="com.tao.entity.Plan" alias="Plan"/>
+ 	 		 <typeAlias type="com.tao.entity.PlanInstance" alias="PlanInstance"/>
+ 	 		 <typeAlias type="com.tao.entity.InstanceAnswer" alias="InstanceAnswer"/>
+   </typeAliases>
+   
+  </configuration>
