@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-   <typeAliases>
-       <typeAlias type="com.tao.entity.Admin" alias="Admin"/>
-   </typeAliases>
-   
-   	<mappers>
-        <mapper resource="com/tao/entity/UserMapper.xml"/>
-    </mappers>
